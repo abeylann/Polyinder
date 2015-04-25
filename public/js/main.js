@@ -8,20 +8,34 @@ requirejs.config({
     //the paths config could be for a directory.
     paths: {
         "jquery": "../bower_components/jquery/dist/jquery",
-        "bootstrap": "../bower_components/bootstrap/dist/js/bootstrap"
+        "bootstrap": "../bower_components/bootstrap/dist/js/bootstrap",
+        "material_ripples": "../bower_components/bootstrap-material-design/dist/js/ripples.min",
+        "material_design": "../bower_components/bootstrap-material-design/dist/js/material.min"
     },
     shim: {
         "jquery": {
             "exports": "$"
         },
         "bootstrap": {
-            "deps": "jquery"
+            "deps": ["jquery"]
+        },
+        "material_ripples": {
+            "deps": ["jquery"],
+            "exports": "$.fn.ripples"
+        },
+        "material_design": {
+            "deps": ["jquery", "material_ripples"],
+            "exports": "$.material"
         }
     }
 });
 
-define(['jquery', 'api'], function($, api) {
+define(['jquery', 'material_design', 'api'], function($, material, api) {
 
+    $(document).ready(function() {
+        // This command is used to initialize some elements and make them work properly
+        material.init();
+    });
 
     api.getRandomQuestion(function(question) {
         $('#question_title').html(question.title);

@@ -9,7 +9,7 @@ require 'braintree'
 set :database, ENV['DATABASE_URL']
 
 get '/' do
-  "Works!"  
+  send_file File.join(settings.public_folder, 'index.html')
 end
 
 get '/clean' do

@@ -10,7 +10,8 @@ requirejs.config({
         "jquery": "../dist/jquery.min",
         "bootstrap": "../dist/js/bootstrap.min",
         "material_ripples": "../dist/js/ripples.min",
-        "material_design": "../dist/js/material.min"
+        "material_design": "../dist/js/material.min",
+        "gest": "../dist/js/gest.min"
     },
     shim: {
         "jquery": {
@@ -26,15 +27,27 @@ requirejs.config({
         "material_design": {
             "deps": ["jquery", "material_ripples"],
             "exports": "$.material"
+        },
+        "gest": {
+            "deps": []
         }
     }
 });
 
-define(['jquery', 'material_design', 'api'], function($, material, api) {
+define(['jquery', 'material_design', 'api', 'shout'], function($, material, api, shout) {
 
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly
         material.init();
+
+        shout.init();
+        shout.subscribe(function(vote) {
+            api.sendVote(currentPolicy, vote === 'yes', function(policy) {
+                console.log('voted', vote);
+                nextQuestion();
+                showVotes(policy);
+            });
+        })
     });
 
     var currentPolicy = null;
@@ -45,14 +58,14 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
 
     $('#button_no').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy.id, false, function(policy) {
+        api.sendVote(currentPolicy, false, function(policy) {
             nextQuestion();
             showVotes(policy);
         });
     });
     $('#button_yes').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy.id, true, function(policy) {
+        api.sendVote(currentPolicy, true, function(policy) {
             nextQuestion();
             showVotes(policy);
         });
@@ -105,30 +118,5 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
         });
     };
     nextQuestion();
-
-    /*var recognition = new webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognition.onresult = function(event) {
-        //console.log(event);
-
-        for (var i = 0; i < event.results.length; i++) {
-            var result = event.results[i];
-            console.log('text: ' + result[0].transcript, result.isFinal, result[0].confidence);
-            switch(result[0].transcript) {
-                case 'vote yes':
-                    nextQuestion();
-                    break;
-                case 'vote no':
-                    nextQuestion();
-                    break;
-            }
-        }
-    };
-    recognition.onend = function(event) {
-        //console.log(event);
-    };
-    recognition.start();*/
-
 
 });

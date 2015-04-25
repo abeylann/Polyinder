@@ -1,0 +1,35 @@
+<h1>Users:</h1>
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Status</th>
+    <th>Merchant ID</th>
+  </tr>
+  <% @users.each do |u| %>
+    <tr>
+      <td><%= u.email %></td>
+      <td><%= u.bt_merchant_state %></td>
+      <td><%= u.bt_merchant_id %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h1>Policies:</h1>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Deadline</th>
+    <th>Image URL</th>
+    <th>Created At</th>
+  </tr>
+  <% @policies.each do |p| %>
+    <tr>
+      <td><%= p.name %></td>
+      <td><%= p.description %></td>
+      <td><%= p.image_url %></td>
+      <td><%= p.deadline %></td>
+      <td><%= p.created_at %></td>
+    </tr>
+  <% end %>
+</table>

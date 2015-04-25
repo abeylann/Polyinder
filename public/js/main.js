@@ -7,10 +7,10 @@ requirejs.config({
     //never includes a ".js" extension since
     //the paths config could be for a directory.
     paths: {
-        "jquery": "../bower_components/jquery/dist/jquery",
-        "bootstrap": "../bower_components/bootstrap/dist/js/bootstrap",
-        "material_ripples": "../bower_components/bootstrap-material-design/dist/js/ripples.min",
-        "material_design": "../bower_components/bootstrap-material-design/dist/js/material.min"
+        "jquery": "../dist/jquery.min",
+        "bootstrap": "../dist/js/bootstrap.min",
+        "material_ripples": "../dist/js/ripples.min",
+        "material_design": "../dist/js/material.min"
     },
     shim: {
         "jquery": {

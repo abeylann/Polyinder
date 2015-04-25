@@ -20,9 +20,9 @@ requirejs.config({
     }
 });
 
-define(['jquery'], function($) {
+define(['jquery', 'api'], function($, api) {
 
-    var votes = {
+    /*var votes = {
         yes: 0,
         no: 0
     };
@@ -39,14 +39,19 @@ define(['jquery'], function($) {
             switch(result[0].transcript) {
                 case 'yes':
                     console.log('yes');
+                    votes.yes++;
+                    $('#count_yes').html(votes.yes);
                     break;
                 case 'no':
                     console.log('no');
+                    votes.no++;
+                    $('#count_no').html(votes.no);
                     break;
             }
         }
     };
     recognition.start();
+*/
 
-    
+
 });

@@ -4,7 +4,7 @@ define(['jquery'], function($) {
         {
             id: '0',
             title: 'Should BattleHack be more often than once a year?',
-            picture: '',
+            picture: 'BH.jpg',
             votes: 23,
             impact: [
                 { title: 'BattleHack will stay fun', no: 5, yes: 0 },

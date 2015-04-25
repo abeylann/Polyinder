@@ -41,7 +41,7 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
         var html = '';
         values.forEach(function(impact) {
             if (!impact.title) return;
-            var conf = (impact.confidence * 100).toFixed(0);
+            var conf = ((impact.confidence - 0.5) * 200).toFixed(0);
             html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'%</div>...'+ impact.title +'</div>';
         });
         if (!values.length) {

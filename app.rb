@@ -52,7 +52,7 @@ end
 post '/create_user' do
   payload = JSON.parse(request.body.read)
   
-  @result = Braintree::MerchantAccount.create(
+  result = Braintree::MerchantAccount.create(
     :individual => {
       :first_name => payload['first_name'],
       :last_name => payload['last_name'],
@@ -74,13 +74,17 @@ post '/create_user' do
     :master_merchant_account_id => 'Polyinder',
   )
 
-  @message = ''
-  @message = @result.message if @result.respond_to? 'message'
-  
-  User.create(bt_merchant_id: @result.merchant_account.id,
-              bt_merchant_state: @result.merchant_account.id,
-              email: payload['email'])
-  erb :pending
+
+  if result.respond_to? 'message'
+    puts "Error!!!"
+    { status: 'fail', message: result.message }
+  else
+    puts "OKAY!!!"
+    User.create(bt_merchant_id: result.merchant_account.id,
+                bt_merchant_state: result.merchant_account.id,
+                email: payload['email'])
+    { status: 'ok', message: 'Merchant is pending' }
+  end
 end
 
 

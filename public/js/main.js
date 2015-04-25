@@ -63,7 +63,7 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
         values.forEach(function(impact) {
             if (!impact.title) return;
             var conf = ((impact.confidence - 0.5) * 200).toFixed(0);
-            html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'%</div>...'+ impact.title +'</div>';
+            html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'% say</div>...'+ impact.title +'</div>';
         });
         if (!values.length) {
             html = '<div class="no-data"></div>'
@@ -79,7 +79,8 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
             $('#question_picture').attr('src', 'img/' + policy.picture);
 
             // display impact
-            if (policy.votes > 0) {
+            var votes = policy.yes + policy.no;
+            if (votes > 0) {
                 displayImpact('impact_no', policy.impact
                     .filter(function (impact) {
                         return impact.no > impact.yes && (impact.no + impact.yes) > 0;
@@ -87,7 +88,7 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
                     .map(function (impact) {
                         return {
                             title: impact.title,
-                            confidence: (impact.no + (policy.votes / 2)) / policy.votes
+                            confidence: (impact.no + (votes / 2)) / votes
                         };
                     }));
                 displayImpact('impact_yes', policy.impact
@@ -97,7 +98,7 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
                     .map(function (impact) {
                         return {
                             title: impact.title,
-                            confidence: (impact.yes + (policy.votes / 2)) / policy.votes
+                            confidence: (impact.yes + (votes / 2)) / votes
                         };
                     }));
             }

@@ -14,7 +14,7 @@ post '/policy/:id' do
   {
     id: params[:id],
     title: 'Should BattleHack be more often than once a year?',
-    picture: '',
+    picture: 'BH.jpg',
     yes: 24,
     no: 13,
     impact: [
@@ -29,7 +29,7 @@ get '/policy/random' do
   {
     id: params[:id],
     title: 'Should BattleHack be more often than once a year?',
-    picture: '',
+    picture: 'BH.jpg',
     yes: 23,
     no: 12,
     impact: [
@@ -44,7 +44,7 @@ get '/policy' do
   [{
       id: '0',
       title: 'Should BattleHack be more often than once a year?',
-      picture: '',
+      picture: 'BH.jpg',
       yes: 23,
       no: 12,
       impact: [

@@ -37,12 +37,33 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
         material.init();
     });
 
+    var currentPolicy = null;
+
+    var showVotes = function(policy) {
+        $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
+    };
+
+    $('#button_no').click(function() {
+        if (!currentPolicy) return;
+        api.sendVote(currentPolicy.id, false, function(policy) {
+            nextQuestion();
+            showVotes(policy);
+        });
+    });
+    $('#button_yes').click(function() {
+        if (!currentPolicy) return;
+        api.sendVote(currentPolicy.id, true, function(policy) {
+            nextQuestion();
+            showVotes(policy);
+        });
+    });
+
     var displayImpact = function(id, values) {
         var html = '';
         values.forEach(function(impact) {
             if (!impact.title) return;
-            var conf = (impact.confidence * 100).toFixed(0);
-            html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'%</div>...'+ impact.title +'</div>';
+            var conf = ((impact.confidence - 0.5) * 200).toFixed(0);
+            html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'% say</div>...'+ impact.title +'</div>';
         });
         if (!values.length) {
             html = '<div class="no-data"></div>'
@@ -51,30 +72,33 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
     };
 
     var nextQuestion = function() {
-        api.getRandomQuestion(function(question) {
-            $('#question_title').html(question.title);
-            $('#question_picture').attr('src', 'img/' + question.picture);
+        api.getRandomPolicy(function(policy) {
+            currentPolicy = policy;
+
+            $('#question_title').html(policy.title);
+            $('#question_picture').attr('src', 'img/' + policy.picture);
 
             // display impact
-            if (question.votes > 0) {
-                displayImpact('impact_no', question.impact
+            var votes = policy.yes + policy.no;
+            if (votes > 0) {
+                displayImpact('impact_no', policy.impact
                     .filter(function (impact) {
                         return impact.no > impact.yes && (impact.no + impact.yes) > 0;
                     })
                     .map(function (impact) {
                         return {
                             title: impact.title,
-                            confidence: (impact.no + (question.votes / 2)) / question.votes
+                            confidence: (impact.no + (votes / 2)) / votes
                         };
                     }));
-                displayImpact('impact_yes', question.impact
+                displayImpact('impact_yes', policy.impact
                     .filter(function (impact) {
                         return impact.yes > impact.no && (impact.no + impact.yes) > 0;
                     })
                     .map(function (impact) {
                         return {
                             title: impact.title,
-                            confidence: (impact.yes + (question.votes / 2)) / question.votes
+                            confidence: (impact.yes + (votes / 2)) / votes
                         };
                     }));
             }

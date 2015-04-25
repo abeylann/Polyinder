@@ -22,6 +22,12 @@ requirejs.config({
 
 define(['jquery', 'api'], function($, api) {
 
+
+    api.getRandomQuestion(function(question) {
+        $('#question_title').html(question.title);
+        $('#question_picture').attr('src', 'img/' + question.picture);
+    });
+
     /*var votes = {
         yes: 0,
         no: 0

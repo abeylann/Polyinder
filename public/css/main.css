@@ -1,6 +1,15 @@
 * { padding: 0; margin: 0;}
 
 
+#button_no {
+    cursor: pointer;
+}
+#button_yes {
+    cursor: pointer;
+}
+
+
+
 .impact {
     padding: 10px;
 }

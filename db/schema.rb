@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150425153403) do
+ActiveRecord::Schema.define(version: 20150425221212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(version: 20150425153403) do
   enable_extension "xml2"
   enable_extension "plv8"
 
+  create_table "impacts", force: :cascade do |t|
+    t.text    "title"
+    t.integer "yes"
+    t.integer "no"
+    t.integer "policy_id"
+  end
+
   create_table "policies", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -51,6 +58,12 @@ ActiveRecord::Schema.define(version: 20150425153403) do
     t.string "bt_merchant_id"
     t.string "bt_merchant_state"
     t.text   "email"
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.string  "session_id"
+    t.integer "policy_id"
+    t.boolean "yes"
   end
 
 end

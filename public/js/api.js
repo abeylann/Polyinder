@@ -47,7 +47,7 @@ define(['jquery'], function($) {
         },
         {
             id: '4',
-            title: 'Increase the minimum wage to the living wage of £10 an hour by 2020, and to £8.10 an hour this year.',
+            title: 'Increase the minimum wage to the living wage of Â£10 an hour by 2020, and to Â£8.10 an hour this year.',
             picture: 'Wage.jpg',
             impact: {
                 no: [],

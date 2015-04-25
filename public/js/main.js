@@ -37,41 +37,74 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
         material.init();
     });
 
-    api.getRandomQuestion(function(question) {
-        $('#question_title').html(question.title);
-        $('#question_picture').attr('src', 'img/' + question.picture);
-    });
-
-    /*var votes = {
-        yes: 0,
-        no: 0
+    var displayImpact = function(id, values) {
+        var html = '';
+        values.forEach(function(impact) {
+            if (!impact.title) return;
+            var conf = (impact.confidence * 100).toFixed(0);
+            html += '<div class="impact panel panel-default"><div class="confidence">'+ conf +'%</div>...'+ impact.title +'</div>';
+        });
+        if (!values.length) {
+            html = '<div class="no-data"></div>'
+        }
+        $('#' + id).html(html);
     };
 
-    var recognition = new webkitSpeechRecognition();
+    var nextQuestion = function() {
+        api.getRandomQuestion(function(question) {
+            $('#question_title').html(question.title);
+            $('#question_picture').attr('src', 'img/' + question.picture);
+
+            // display impact
+            if (question.votes > 0) {
+                displayImpact('impact_no', question.impact
+                    .filter(function (impact) {
+                        return impact.no > impact.yes && (impact.no + impact.yes) > 0;
+                    })
+                    .map(function (impact) {
+                        return {
+                            title: impact.title,
+                            confidence: (impact.no + (question.votes / 2)) / question.votes
+                        };
+                    }));
+                displayImpact('impact_yes', question.impact
+                    .filter(function (impact) {
+                        return impact.yes > impact.no && (impact.no + impact.yes) > 0;
+                    })
+                    .map(function (impact) {
+                        return {
+                            title: impact.title,
+                            confidence: (impact.yes + (question.votes / 2)) / question.votes
+                        };
+                    }));
+            }
+        });
+    };
+    nextQuestion();
+
+    /*var recognition = new webkitSpeechRecognition();
     recognition.continuous = true;
-    recognition.interimResults = true;
+    recognition.interimResults = false;
     recognition.onresult = function(event) {
         //console.log(event);
 
         for (var i = 0; i < event.results.length; i++) {
             var result = event.results[i];
-            console.log('text: ' + result[0].transcript);
+            console.log('text: ' + result[0].transcript, result.isFinal, result[0].confidence);
             switch(result[0].transcript) {
-                case 'yes':
-                    console.log('yes');
-                    votes.yes++;
-                    $('#count_yes').html(votes.yes);
+                case 'vote yes':
+                    nextQuestion();
                     break;
-                case 'no':
-                    console.log('no');
-                    votes.no++;
-                    $('#count_no').html(votes.no);
+                case 'vote no':
+                    nextQuestion();
                     break;
             }
         }
     };
-    recognition.start();
-*/
+    recognition.onend = function(event) {
+        //console.log(event);
+    };
+    recognition.start();*/
 
 
 });

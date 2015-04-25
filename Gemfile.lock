@@ -3,6 +3,7 @@ GEM
   specs:
     pg (0.17.0)
     pg (0.17.0-x64-mingw32)
+    pg (0.17.0-x86-mingw32)
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
@@ -15,6 +16,7 @@ GEM
 PLATFORMS
   ruby
   x64-mingw32
+  x86-mingw32
 
 DEPENDENCIES
   pg

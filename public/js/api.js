@@ -38,9 +38,10 @@ define(['jquery'], function($) {
                 }
             });
         },
-        sendVote: function(id, yes, cb) {
-            $.ajax({
-                url: apiUrl + '/policy/' + id + '/vote',
+        sendVote: function(policy, yes, cb) {
+            cb(policy);
+            /*$.ajax({
+                url: apiUrl + '/policy/' + policy.id + '/vote',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -52,7 +53,7 @@ define(['jquery'], function($) {
                         return;
                     cb(JSON.parse(res.responseText));
                 }
-            });
+            });*/
         }
     };
 

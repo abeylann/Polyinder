@@ -17,11 +17,13 @@ get '/dashboard' do
 end
 
 get '/bt_webhook' do
-  '{ "status": "OK" }'
+ challenge = params["bt_challenge"]
+  challenge_response = Braintree::WebhookNotification.verify(challenge)
+  return [200, challenge_response]
 end
 
 # When we sign up a new person who wants to donate money.
-post '/complete_signup' do
+gpost '/complete_signup' do
   Braintree::Configuration.environment = :sandbox
   Braintree::Configuration.merchant_id = ENV['BT_MERCHANT_ID']
   Braintree::Configuration.public_key = ENV['BT_PUBLIC_KEY']

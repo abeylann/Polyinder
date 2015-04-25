@@ -1,3 +1,7 @@
-.idea
 bower_components
 .env
+node_modules
+
+# intellij
+.idea
+*.iml

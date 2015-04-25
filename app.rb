@@ -46,8 +46,8 @@ post '/complete_signup' do
       :email => params[:email],
     },
     :tos_accepted => true,
-    :master_merchant_account_id => "7rm7vphhg8m6x3jb",
-    :id => "blue_ladders_store"
+    :master_merchant_account_id => ENV['BT_MERCHANT_ID'],
+    :id => "Polyinder"
   )
   User.create(bt_merchant_id: result.id, bt_merchant_state: result.status, email: params[:email])
   erb :pending

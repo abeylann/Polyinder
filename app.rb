@@ -38,6 +38,15 @@ post "/policy/:id/vote" do
   answer = false
   answer = true if payload['vote'] == 'yes'
 
+  if payload.key? 'impacts'
+    payload['impacts'].each do |i|
+      imp = p.impacts.find(i['id'])
+      imp.yes = imp.yes + 1 if i['vote'] == 'yes'
+      imp.no = imp.no + 1 if i['vote'] == 'no'
+      imp.save
+    end
+  end
+
   if !v || v.empty?
     v = Vote.create(policy_id: p.id,
                 session_id: payload['session_id'],

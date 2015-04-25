@@ -3,6 +3,7 @@ class Impact < ActiveRecord::Base
 
   def present
     {
+      id: id,
       title: title,
       yes: yes,
       no: no

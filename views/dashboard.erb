@@ -21,6 +21,7 @@
     <th>Description</th>
     <th>Deadline</th>
     <th>Image URL</th>
+    <td>Impacts</td>
     <th>Created At</th>
   </tr>
   <% @policies.each do |p| %>
@@ -29,7 +30,11 @@
       <td><%= p.description %></td>
       <td><%= p.image_url %></td>
       <td><%= p.deadline %></td>
-      <td><%= p.impacts.count %></td>
+      <td>
+        <% p.impacts.each do |i| %>
+        <%= "#{i.title} #{i.yes}/#{i.no}" %>
+        <% end %>
+      </td>
       <td><%= p.created_at %></td>
     </tr>
   <% end %>

@@ -9,5 +9,4 @@ class Impact < ActiveRecord::Base
       no: no
     }
   end
-
 end

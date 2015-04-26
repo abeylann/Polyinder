@@ -5,7 +5,8 @@ require './models/policy'
 require './models/vote'
 require './models/impact'
 require 'braintree'
-
+require 'sendgrid-ruby'
+require 'twilio-ruby'
 set :database, ENV['DATABASE_URL']
 
 get '/' do
@@ -16,6 +17,28 @@ get '/clean' do
   Policy.all.each do |p|
     p.destroy
   end
+end
+
+get '/notify/:id' do
+  p = Policy.find(params[:id])
+  total = p.pledged
+  share = 0
+  share = (p.pledged / p.votes.count).round(2) if p.votes.count > 0
+
+  # using SendGrid's Ruby Library - https://github.com/sendgrid/sendgrid-ruby
+  sg = SendGrid::Client.new(api_user: ENV['SENDGRID_USER'], api_key: ENV['SENDGRID_PASS'])
+  email = SendGrid::Mail.new do |m|
+    m.to      = 'michael@wawra.co.uk'
+    m.from    = 'votesthatcount@wawra.co.uk'
+    m.subject = "You have been awarded £#{share}!"
+    m.html    = 'woo'
+  end
+  sg.send(email)
+
+  twilio = Twilio::REST::Client.new(ENV['TWILIO_AUTH'], ENV['TWILIO_TOKEN'])
+  twilio.account.messages.create(to: '+447804762520', from: '+442071838740', body: "You just paid £#{total} to support your cause!")
+
+  redirect '/dashboard'
 end
 
 post '/policy' do

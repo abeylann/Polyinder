@@ -46,7 +46,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
     var votesBlocked = false;
 
     var showPage = function(page) {
-        var pages = ['voting', 'stats'];
+        var pages = ['voting', 'stats', 'done'];
         pages.forEach(function(p) {
             $('#page_' + p).css('display', (page === p ? '' : 'none'));
         });
@@ -151,7 +151,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                 $('#vote_policy').css({
                     'background-image': 'url("img/' + (policy.picture || 'BH.jpg') + '")'
                 });
-                $('#vote_pledged').html('For voting you will get your share of: £' + policy.pledged.toFixed(2));
+                $('#vote_pledged').html('For voting you will get your share of: £' + (policy.pledged || 0).toFixed(2));
 
                 // display impact
                 var votes = policy.yes + policy.no;

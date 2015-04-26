@@ -8,6 +8,11 @@
     overflow:hidden;
 }
 
+#page_done {
+    padding: 30px;
+}
+
+
 .vote_legend {
     height: 100px;
     transform: translateY(100%);

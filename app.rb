@@ -13,6 +13,10 @@ get '/' do
   send_file File.join(settings.public_folder, 'index.html')
 end
 
+get '/register' do
+  send_file File.join(settings.public_folder, 'signup.html')
+end
+
 get '/clean' do
   Policy.all.each do |p|
     p.destroy
@@ -135,6 +139,11 @@ end
 # region
 # postal_code
 post '/create_user' do
+  Braintree::Configuration.environment = :sandbox
+  Braintree::Configuration.merchant_id = ENV['BT_ACCOUNT_ID']
+  Braintree::Configuration.public_key = ENV['BT_PUBLIC_KEY']
+  Braintree::Configuration.private_key = ENV['BT_PRIVATE_KEY']
+
   payload = JSON.parse(request.body.read)
   
   result = Braintree::MerchantAccount.create(

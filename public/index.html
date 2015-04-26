@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
+	<meta http-equiv = 'Content-Language' content = 'en'/>
 	<link rel="stylesheet" type="text/css" href="css/main.css" />
 	<link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css" />
 
@@ -20,7 +21,6 @@
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">
 					<span><img src="img/LogoScaled.png"/></span>
-
 					Votes That Matter
 				</a>
 			</div>
@@ -41,11 +41,11 @@
 
 		<!-- voting view -->
 		<div class="row voting">
-			<div id="button_no" class="col-sm-4 text-center">NO</div>
+			<div id="button_no" class="col-sm-4 text-center"><img src="cross.png" style="height:128px"/></div>
 			<div id="vote_policy" class="col-sm-4 text-center well box">
-				<img id="vote_decision"/>
+				<img id="vote_decision" onerror="this.src='img/BH.jpg'"/>
 			</div>
-			<div id="button_yes" class="col-sm-4 text-center">YES</div>
+			<div id="button_yes" class="col-sm-4 text-center"><img src="check.png" style="height:128px"/></div>
 		</div>
 		<!--
 		<img id="question_picture" />
@@ -64,6 +64,13 @@
 			<div id="impact_no" class="col-sm-6">
 			</div>
 			<div id="impact_yes" class="col-sm-6">
+			</div>
+		</div>
+
+
+		<!-- vote for impact -->
+		<div class="row">
+			<div class="col-sm-6">
 			</div>
 		</div>
 

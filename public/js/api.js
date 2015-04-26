@@ -38,13 +38,14 @@ define(['jquery'], function($) {
                 }
             });
         },
-        sendVote: function(id, yes, cb) {
+        sendVote: function(policy, yes, cb) {
+            if (!policy || !cb) return;
             $.ajax({
-                url: apiUrl + '/policy/' + id + '/vote',
+                url: apiUrl + '/policy/' + policy.id + '/vote',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    session: api.getSession(),
+                    session_id: api.getSession(),
                     vote: (yes ? 'yes' : 'no')
                 }),
                 complete: function(res) {

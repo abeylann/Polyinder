@@ -9,6 +9,7 @@ requirejs.config({
     paths: {
         "jquery": "../dist/jquery.min",
         "bootstrap": "../dist/js/bootstrap.min",
+        "gest": "../dist/js/gest.min",
         "material_ripples": "../dist/js/ripples.min",
         "material_design": "../dist/js/material.min",
         "touchSwipe": "../js/jquery.touchSwipe.min"
@@ -19,6 +20,9 @@ requirejs.config({
         },
         "bootstrap": {
             "deps": ["jquery"]
+        },
+        "gest": {
+            "deps": []
         },
         "material_ripples": {
             "deps": ["jquery"],
@@ -35,13 +39,12 @@ requirejs.config({
     }
 });
 
-define(['jquery', 'material_design', 'api', 'touchSwipe'], function($, material, api, swipe) {
+define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, material, api, swipe, shout) {
 
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly
         material.init();
 
-        //$('#question_picture').swipe({
         $('#vote_policy').swipe({
             swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
                 console.log("You swiped " + direction );
@@ -53,28 +56,38 @@ define(['jquery', 'material_design', 'api', 'touchSwipe'], function($, material,
             },
             threshold: 10
         });
+
+        shout.init();
+        shout.subscribe(function(vote) {
+            sendVote(vote);
+        })
     });
 
     var currentPolicy = null;
 
     var showVotes = function(policy) {
-        $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
+        if (policy.status === 'fail')
+            $('#stats').html(policy.message);
+        else
+            $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
     };
 
     $('#button_no').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy.id, false, function(policy) {
-            nextQuestion();
-            showVotes(policy);
-        });
+        sendVote('no');
     });
     $('#button_yes').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy.id, true, function(policy) {
+        sendVote('yes');
+    });
+
+    var sendVote = function(vote) {
+        api.sendVote(currentPolicy, vote === 'yes', function(policy) {
+            console.log('voted', vote);
             nextQuestion();
             showVotes(policy);
         });
-    });
+    };
 
     var displayImpact = function(id, values) {
         var html = '';
@@ -96,9 +109,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe'], function($, material,
             $('#question_title').html(policy.title);
             //$('#question_picture').attr('src', 'img/' + policy.picture);
             $('#vote_policy').css({
-                'background-image': 'url("img/' + policy.picture + '")'//,
-                //'background-repeat': 'no-repeat',
-                //'background-size': '100% auto'
+                'background-image': 'url("img/' + policy.picture + '")'
             });
 
             // display impact
@@ -128,30 +139,5 @@ define(['jquery', 'material_design', 'api', 'touchSwipe'], function($, material,
         });
     };
     nextQuestion();
-
-    /*var recognition = new webkitSpeechRecognition();
-    recognition.continuous = true;
-    recognition.interimResults = false;
-    recognition.onresult = function(event) {
-        //console.log(event);
-
-        for (var i = 0; i < event.results.length; i++) {
-            var result = event.results[i];
-            console.log('text: ' + result[0].transcript, result.isFinal, result[0].confidence);
-            switch(result[0].transcript) {
-                case 'vote yes':
-                    nextQuestion();
-                    break;
-                case 'vote no':
-                    nextQuestion();
-                    break;
-            }
-        }
-    };
-    recognition.onend = function(event) {
-        //console.log(event);
-    };
-    recognition.start();*/
-
 
 });

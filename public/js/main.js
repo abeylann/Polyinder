@@ -88,6 +88,9 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
         $('#votes_no').stop().animate({width: 100*currentPolicy.no/total + '%'}, 'slow');
         $('#votes_yes').html(currentPolicy.yes);
         $('#votes_yes').stop().animate({width: 100*currentPolicy.yes/total + '%'}, 'slow');
+
+        var recording = shout.getRecording();
+        $('#votes_recording').html(!recording ? '' : '<b>While you thought about your vote, you said:</b><br/>' + recording);
     };
 
     $('#button_no').click(function() {
@@ -180,6 +183,10 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                         }));
                 }
                 showPage('voting');
+
+
+                shout.clearRecording();
+
             } else {
                 // display hint that no more voting is possible
                 $('#question_title').html('Thank you for Waving Your Votes. Come back later for more!');

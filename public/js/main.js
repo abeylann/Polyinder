@@ -120,8 +120,8 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                     showVotes(policy, vote);
                     window.setTimeout(function() {
                         votesBlocked = false;
-                    }, 1000);
-                }, 1000);
+                    }, 500);
+                }, 500);
             });
         } else {
             nextQuestion();

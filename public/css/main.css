@@ -12,6 +12,10 @@
     padding: 30px;
 }
 
+#votes_recording {
+    max-height: 50px;
+    text-overflow: ellipsis;
+}
 
 .vote_legend {
     height: 100px;

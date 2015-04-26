@@ -20,6 +20,9 @@
 .header-image img {
     height: 40px;
 }
+.header-image.braintree img {
+    height: 30px;
+}
 .header-image span {
     font-size: 24px;
 }

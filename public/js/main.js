@@ -10,7 +10,8 @@ requirejs.config({
         "jquery": "../dist/jquery.min",
         "bootstrap": "../dist/js/bootstrap.min",
         "material_ripples": "../dist/js/ripples.min",
-        "material_design": "../dist/js/material.min"
+        "material_design": "../dist/js/material.min",
+        "touchSwipe": "../js/jquery.touchSwipe.min"
     },
     shim: {
         "jquery": {
@@ -26,15 +27,32 @@ requirejs.config({
         "material_design": {
             "deps": ["jquery", "material_ripples"],
             "exports": "$.material"
+        },
+        "touchSwipe": {
+            "deps": ["jquery"],
+            "exports": "$.fn.swipe"
         }
     }
 });
 
-define(['jquery', 'material_design', 'api'], function($, material, api) {
+define(['jquery', 'material_design', 'api', 'touchSwipe'], function($, material, api, swipe) {
 
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly
         material.init();
+
+        //$('#question_picture').swipe({
+        $('#vote_policy').swipe({
+            swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
+                console.log("You swiped " + direction );
+                if (direction === "left") {
+                    $('#vote_decision').attr('src', 'img/cross.png').css('display','block');
+                } else {
+                    $('#vote_decision').attr('src', 'img/check.png').css('display','block');
+                }
+            },
+            threshold: 10
+        });
     });
 
     var currentPolicy = null;
@@ -76,7 +94,12 @@ define(['jquery', 'material_design', 'api'], function($, material, api) {
             currentPolicy = policy;
 
             $('#question_title').html(policy.title);
-            $('#question_picture').attr('src', 'img/' + policy.picture);
+            //$('#question_picture').attr('src', 'img/' + policy.picture);
+            $('#vote_policy').css({
+                'background-image': 'url("img/' + policy.picture + '")'//,
+                //'background-repeat': 'no-repeat',
+                //'background-size': '100% auto'
+            });
 
             // display impact
             var votes = policy.yes + policy.no;

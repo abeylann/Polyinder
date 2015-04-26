@@ -6,8 +6,8 @@ define(['gest'], function() {
         init: function() {
 
             gest.start();
-            gest.options.sensitivity(85);
-
+            gest.options.sensitivity(80);
+            //gest.options.skinFilter(true);
         },
         subscribe: function(cb) {
             gest.options.subscribeWithCallback(function(e) {

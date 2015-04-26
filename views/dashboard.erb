@@ -17,6 +17,7 @@
 <h1>Policies:</h1>
 <table>
   <tr>
+    <th>Action</th>
     <th>Name</th>
     <th>Votes (yes/no)</th>
     <th>Deadline</th>
@@ -26,6 +27,7 @@
   </tr>
   <% @policies.each do |p| %>
     <tr>
+      <td><a href="/notify/<%= p.id %>">close voting</a></td>
       <td><%= p.name %></td>
       <td><%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 1 : 0) } %> / <%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 0 : 1) } %></td>
       <td><%= p.image_url %></td>
@@ -39,3 +41,5 @@
     </tr>
   <% end %>
 </table>
+
+<script>

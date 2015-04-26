@@ -1,5 +1,31 @@
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv = 'Content-Language' content = 'en'/>
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="text/css" href="dist/css/bootstrap.min.css" />
+
+  <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
+  <link href="dist/css/roboto.min.css" rel="stylesheet">
+  <link href="dist/css/material.min.css" rel="stylesheet">
+  <link href="dist/css/ripples.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">
+          <span><img src="img/LogoScaled.png"/></span>
+          Votes That Matter
+        </a>
+      </div>
+    </div>
+  </nav>
+
+<div class="container">
 <h1>Users:</h1>
-<table>
+<div class="row">
+<table class="table-striped">
   <tr>
     <th>Email</th>
     <th>Status</th>
@@ -13,33 +39,26 @@
     </tr>
   <% end %>
 </table>
-
+</div>
+<div class="row">
 <h1>Policies:</h1>
-<table>
+<table class="table-striped">
   <tr>
     <th>Action</th>
     <th>Name</th>
     <th>Votes (yes/no)</th>
-    <th>Deadline</th>
     <th>Image URL</th>
-    <td>Impacts</td>
-    <th>Created At</th>
   </tr>
   <% @policies.each do |p| %>
     <tr>
       <td><a href="/notify/<%= p.id %>">close voting</a></td>
       <td><%= p.name %></td>
       <td><%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 1 : 0) } %> / <%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 0 : 1) } %></td>
-      <td><%= p.image_url %></td>
-      <td><%= p.deadline %></td>
-      <td>
-        <% p.impacts.each do |i| %>
-        <%= "#{i.title} #{i.yes}/#{i.no}" %>
-        <% end %>
-      </td>
-      <td><%= p.created_at %></td>
+      <td><img src="/img/<%= p.image_url %>" style="max-height: 50px; max-width: 50px;"></td>
     </tr>
   <% end %>
 </table>
-
-<script>
+</div>
+</div>
+</body>
+</html>

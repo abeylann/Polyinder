@@ -43,3 +43,34 @@
     color: #bbbbbb;
     padding-bottom: 5px;
 }
+
+#page_stats {
+    padding-top: 50px;
+}
+
+#votes_cur {
+    min-height: 160px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+#votes_cur img {
+    height: 100px;
+}
+
+.vote_result {
+    margin: 10px 0;
+    height: 30px;
+    padding-top: 5px;
+}
+#votes_no {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding-left: 5px;
+}
+#votes_yes {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    padding-left: 5px;
+}

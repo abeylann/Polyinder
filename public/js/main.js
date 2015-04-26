@@ -41,6 +41,18 @@ requirejs.config({
 
 define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, material, api, swipe, shout) {
 
+    var currentPolicy = null;
+    var currentPage = null;
+    var votesBlocked = false;
+
+    var showPage = function(page) {
+        var pages = ['voting', 'stats'];
+        pages.forEach(function(p) {
+            $('#page_' + p).css('display', (page === p ? '' : 'none'));
+        });
+        currentPage = page;
+    };
+
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly
         material.init();
@@ -62,17 +74,20 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
         shout.init();
         shout.subscribe(function(vote) {
             sendVote(vote);
-        })
+        });
     });
 
-    var currentPolicy = null;
-
-    var showVotes = function(policy) {
-        if (policy.status === 'fail') {
-            $('#stats').html(policy.message);
-        } else {
-            $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
-        }
+    var showVotes = function(policy, vote) {
+        showPage('stats');
+        if (policy.status === 'fail')
+            $('#votes_cur').html(policy.message);
+        else
+            $('#votes_cur').html('<img src="img/'+ (vote === 'yes' ? 'check.png' : 'cross.png') +'" />');
+        var total = currentPolicy.no + currentPolicy.yes;
+        $('#votes_no').html(currentPolicy.no);
+        $('#votes_no').stop().animate({width: 100*currentPolicy.no/total + '%'}, 'slow');
+        $('#votes_yes').html(currentPolicy.yes);
+        $('#votes_yes').stop().animate({width: 100*currentPolicy.yes/total + '%'}, 'slow');
     };
 
     $('#button_no').click(function() {
@@ -85,18 +100,27 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
     });
 
     var sendVote = function(vote) {
-        api.sendVote(currentPolicy, vote === 'yes', function(policy) {
-            console.log('voted', vote);
-            if (vote === 'no') {
-                // voted NO
-                $('#vote_decision').attr('src', 'img/cross.png').css('display','block');
-            } else {
-                // voted YES
-                $('#vote_decision').attr('src', 'img/check.png').css('display','block');
-            }
-            //nextQuestion();
-            showVotes(policy);
-        });
+        if (votesBlocked)
+            return;
+        if (currentPage === 'voting') {
+            votesBlocked = true;
+            api.sendVote(currentPolicy, vote === 'yes', function (policy) {
+                console.log('voted', vote);
+                if (vote === 'no') {
+                    // voted NO
+                    $('#vote_decision').attr('src', 'img/cross.png').css('display', 'block');
+                } else {
+                    // voted YES
+                    $('#vote_decision').attr('src', 'img/check.png').css('display', 'block');
+                }
+                showVotes(policy);
+                window.setTimeout(function() {
+                    votesBlocked = false;
+                }, 2000);
+            });
+        } else {
+            nextQuestion();
+        }
     };
 
     var displayImpact = function(id, values) {
@@ -112,7 +136,11 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
         $('#' + id).html(html);
     };
 
-    var nextQuestion = function() {
+    var nextQuestion = function(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        showPage('voting');
+        $('#vote_decision').css('display', 'none');
+
         api.getRandomPolicy(function(policy) {
             currentPolicy = policy;
 
@@ -151,4 +179,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
     };
     nextQuestion();
 
+    return {
+        nextPolicy: nextQuestion
+    }
 });

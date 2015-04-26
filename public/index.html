@@ -34,39 +34,58 @@
 		</div>
 
 
-		<div class="row">
-			<div id="stats" class="col-sm-12"></div>
-		</div>
+		<!-- voting view -->
+		<div id="page_voting" style="display:none">
+			<div class="row voting">
+				<div id="button_no" class="col-sm-4 text-center"><img class="vote_legend" src="img/cross.png"/></div>
+				<div id="vote_policy" class="col-sm-4 text-center well box">
+					<img id="vote_decision" onerror="this.src='img/BH.jpg'"/>
+				</div>
+				<div id="button_yes" class="col-sm-4 text-center"><img class="vote_legend" src="img/check.png"/></div>
+			</div>
 
+			<!-- impact data -->
+			<div class="row">
+				<div class="col-sm-6">
+					<h3>If you vote NO...</h3>
+				</div>
+				<div class="col-sm-6">
+					<h3>If you vote YES...</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div id="impact_no" class="col-sm-6">
+				</div>
+				<div id="impact_yes" class="col-sm-6">
+				</div>
+			</div>
+		</div>
 
 		<!-- voting view -->
-		<div class="row voting">
-			<div id="button_no" class="col-sm-4 text-center"><img class="vote_legend" src="img/cross.png"/></div>
-			<div id="vote_policy" class="col-sm-4 text-center well box">
-				<img id="vote_decision" onerror="this.src='img/BH.jpg'"/>
+		<div id="page_stats" style="display:none">
+			<div class="row">
+				<div class="col-sm-6 col-sm-push-6">What others voted</div>
 			</div>
-			<div id="button_yes" class="col-sm-4 text-center"><img class="vote_legend" src="img/check.png"/></div>
-		</div>
-		<!--
-		<img id="question_picture" />
-		 -->
+			<div class="row">
+				<div class="col-sm-6 text-center">
+					<div id="votes_cur"></div>
+				</div>
+				<div class="col-sm-1">
+					<div class="vote_result">NO</div>
+					<div class="vote_result">YES</div>
+				</div>
+				<div class="col-sm-5">
+					<div id="votes_no" class="vote_result" style="width: 0"></div>
+					<div id="votes_yes" class="vote_result" style="width: 0"></div>
+				</div>
+			</div>
 
-		<!-- impact data -->
-		<div class="row">
-			<div class="col-sm-6">
-				<h3>If you vote NO...</h3>
-			</div>
-			<div class="col-sm-6">
-				<h3>If you vote YES...</h3>
+			<div class="row">
+				<div class="col-sm-9 text-right">
+					<a href="#" onClick="require('main').nextPolicy()">next <span class="glyphicon glyphicon-menu-right"></span></a>
+				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div id="impact_no" class="col-sm-6">
-			</div>
-			<div id="impact_yes" class="col-sm-6">
-			</div>
-		</div>
-
 
 		<!-- vote for impact -->
 		<div class="row">

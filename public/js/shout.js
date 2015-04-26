@@ -11,6 +11,8 @@ define(['gest'], function() {
         },
         subscribe: function(cb) {
             gest.options.subscribeWithCallback(function(e) {
+                if (!e.direction)
+                    return;
                 //console.log(e.direction);
                 switch(e.direction.toLowerCase()) {
                     case 'left':

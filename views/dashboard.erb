@@ -18,7 +18,7 @@
 <table>
   <tr>
     <th>Name</th>
-    <th>Description</th>
+    <th>Votes (yes/no)</th>
     <th>Deadline</th>
     <th>Image URL</th>
     <td>Impacts</td>
@@ -27,7 +27,7 @@
   <% @policies.each do |p| %>
     <tr>
       <td><%= p.name %></td>
-      <td><%= p.description %></td>
+      <td><%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 1 : 0) } %> / <%= p.votes.inject(0) { |sum, v| sum + (v.yes ? 0 : 1) } %></td>
       <td><%= p.image_url %></td>
       <td><%= p.deadline %></td>
       <td>

@@ -49,7 +49,7 @@ post '/policy' do
   puts params
   payload = JSON.parse(request.body.read)
   p = Policy.create(name: payload['name'],
-                image_url: payload['picture'])
+                image_url: payload['picture'], pledged: payload['pledged'])
   if payload['impact']
     payload['impact'].each do |i|
       Impact.create(title: i['title'], yes: 0, no: 0, policy_id: p.id)

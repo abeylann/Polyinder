@@ -42,34 +42,35 @@ define(['jquery', 'material_design', 'api', 'shout'], function($, material, api,
 
         shout.init();
         shout.subscribe(function(vote) {
-            api.sendVote(currentPolicy, vote === 'yes', function(policy) {
-                console.log('voted', vote);
-                nextQuestion();
-                showVotes(policy);
-            });
+            sendVote(vote);
         })
     });
 
     var currentPolicy = null;
 
     var showVotes = function(policy) {
-        $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
+        if (policy.status === 'fail')
+            $('#stats').html(policy.message);
+        else
+            $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
     };
 
     $('#button_no').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy, false, function(policy) {
-            nextQuestion();
-            showVotes(policy);
-        });
+        sendVote('no');
     });
     $('#button_yes').click(function() {
         if (!currentPolicy) return;
-        api.sendVote(currentPolicy, true, function(policy) {
+        sendVote('yes');
+    });
+
+    var sendVote = function(vote) {
+        api.sendVote(currentPolicy, vote === 'yes', function(policy) {
+            console.log('voted', vote);
             nextQuestion();
             showVotes(policy);
         });
-    });
+    };
 
     var displayImpact = function(id, values) {
         var html = '';

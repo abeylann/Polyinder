@@ -45,8 +45,10 @@
 			</div>
 			<div class="row voting">
 				<div id="button_no" class="col-sm-4 text-center"><img class="vote_legend" src="img/cross.png"/></div>
-				<div id="vote_policy" class="col-sm-4 text-center well box">
-					<img id="vote_decision" onerror="this.src='img/BH.jpg'"/>
+				<div class="col-sm-4 text-center">
+					<div id="vote_policy" class="well box">
+						<img id="vote_decision" onerror="this.src='img/BH.jpg'"/>
+					</div>
 				</div>
 				<div id="button_yes" class="col-sm-4 text-center"><img class="vote_legend" src="img/check.png"/></div>
 			</div>
@@ -58,7 +60,7 @@
 				</div>
 				<div class="col-sm-4">
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-4 text-center">
 					<h3>If you vote YES...</h3>
 				</div>
 			</div>
@@ -94,7 +96,8 @@
 
 			<div class="row">
 				<div class="col-sm-9 text-right">
-					<a href="#" onClick="require('main').nextPolicy()"><a href="javascript:void(0)" class="btn btn-info btn-raised">Next</a>
+
+					<a href="#" onClick="require('main').nextPolicy()" class="btn btn-info btn-raised">Next</span></a>
 				</div>
 			</div>
 		</div>

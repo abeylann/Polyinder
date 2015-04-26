@@ -8,6 +8,18 @@
     overflow: hidden;
 }
 
+.header-image {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 10px 0 10px;
+}
+.header-image img {
+    height: 40px;
+}
+.header-image span {
+    font-size: 24px;
+}
+
 #page_done {
     padding: 30px;
 }

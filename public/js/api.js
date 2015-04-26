@@ -29,12 +29,13 @@ define(['jquery'], function($) {
         getRandomPolicy: function(cb) {
             if (!cb) return;
             $.ajax({
-                url: apiUrl + '/policy/random',
+                url: apiUrl + '/policy/random/' + api.getSession(),
                 contentType: 'application/json',
                 complete: function(res) {
                     if (res.status !== 200)
                         return;
-                    cb(JSON.parse(res.responseText));
+                    var policy = !res.responseText ? null : JSON.parse(res.responseText);
+                    cb(policy.status === 'fail' ? null : policy);
                 }
             });
         },

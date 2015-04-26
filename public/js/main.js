@@ -113,9 +113,11 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                     // voted YES
                     $('#vote_decision').attr('src', 'img/check.png').css('display', 'block');
                 }
-                showVotes(policy);
                 window.setTimeout(function() {
-                    votesBlocked = false;
+                    showVotes(policy);
+                    window.setTimeout(function() {
+                        votesBlocked = false;
+                    }, 1000);
                 }, 2000);
             });
         } else {
@@ -138,42 +140,47 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
 
     var nextQuestion = function(e) {
         if (e && e.preventDefault) e.preventDefault();
-        showPage('voting');
         $('#vote_decision').css('display', 'none');
 
         api.getRandomPolicy(function(policy) {
             currentPolicy = policy;
 
-            $('#question_title').html(policy.title);
-            //$('#question_picture').attr('src', 'img/' + policy.picture);
-            $('#vote_policy').css({
-                //'background-image': 'url("img/' + policy.picture + '")'
-                'background-image': 'url("img/BH.jpg")'
-            });
+            if (policy) {
+                $('#question_title').html(policy.title);
+                //$('#question_picture').attr('src', 'img/' + policy.picture);
+                $('#vote_policy').css({
+                    'background-image': 'url("img/' + (policy.picture || 'BH.jpg') + '")'
+                });
 
-            // display impact
-            var votes = policy.yes + policy.no;
-            if (votes > 0) {
-                displayImpact('impact_no', policy.impact
-                    .filter(function (impact) {
-                        return impact.no > impact.yes && (impact.no + impact.yes) > 0;
-                    })
-                    .map(function (impact) {
-                        return {
-                            title: impact.title,
-                            confidence: (impact.no + (votes / 2)) / votes
-                        };
-                    }));
-                displayImpact('impact_yes', policy.impact
-                    .filter(function (impact) {
-                        return impact.yes > impact.no && (impact.no + impact.yes) > 0;
-                    })
-                    .map(function (impact) {
-                        return {
-                            title: impact.title,
-                            confidence: (impact.yes + (votes / 2)) / votes
-                        };
-                    }));
+                // display impact
+                var votes = policy.yes + policy.no;
+                if (votes > 0) {
+                    displayImpact('impact_no', policy.impact
+                        .filter(function (impact) {
+                            return impact.no > impact.yes && (impact.no + impact.yes) > 0;
+                        })
+                        .map(function (impact) {
+                            return {
+                                title: impact.title,
+                                confidence: (impact.no + (votes / 2)) / votes
+                            };
+                        }));
+                    displayImpact('impact_yes', policy.impact
+                        .filter(function (impact) {
+                            return impact.yes > impact.no && (impact.no + impact.yes) > 0;
+                        })
+                        .map(function (impact) {
+                            return {
+                                title: impact.title,
+                                confidence: (impact.yes + (votes / 2)) / votes
+                            };
+                        }));
+                }
+                showPage('voting');
+            } else {
+                // display hint that no more voting is possible
+                $('#question_title').html('You have voted on everything. Wow. Come back later for more!');
+                showPage('done');
             }
         });
     };

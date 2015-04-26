@@ -58,8 +58,8 @@ post "/policy/:id/vote" do
   end
 end
 
-get '/policy/random' do
-  p = Policy.all
+get '/policy/random/:session_id' do
+  p = Policy.all.select { |pol| (v = pol.votes.where(session_id: params['session_id'])) && (!v || v.empty?) }
   if p != []
     p.sample.present.to_json
   else

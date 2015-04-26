@@ -82,7 +82,8 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
         if (policy.status === 'fail')
             $('#votes_cur').html(policy.message);
         else
-            $('#votes_cur').html('<img src="img/'+ (vote === 'yes' ? 'check.png' : 'cross.png') +'" />');
+            $('#votes_cur').html('<div class="btn btn-fab btn-raised '+ (vote === 'yes' ? 'btn-success mdi-action-thumb-up' : 'btn-danger mdi-action-thumb-down') +'"></div>');
+
         var total = currentPolicy.no + currentPolicy.yes;
         $('#votes_no').html(currentPolicy.no);
         $('#votes_no').stop().animate({width: 100*currentPolicy.no/total + '%'}, 'slow');

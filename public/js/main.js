@@ -153,6 +153,8 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                 });
                 $('#vote_pledged').html('For voting you will get your share of: £' + (policy.pledged || 0).toFixed(2));
 
+                $('#vote_share').html("£"+policy.share+" of £"+(policy.pledged || 0).toFixed(2));
+
                 // display impact
                 var votes = policy.yes + policy.no;
                 if (votes > 0) {

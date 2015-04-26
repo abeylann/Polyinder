@@ -109,7 +109,8 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
             $('#question_title').html(policy.title);
             //$('#question_picture').attr('src', 'img/' + policy.picture);
             $('#vote_policy').css({
-                'background-image': 'url("img/' + policy.picture + '")'
+                //'background-image': 'url("img/' + policy.picture + '")'
+                'background-image': 'url("img/BH.jpg")'
             });
 
             // display impact

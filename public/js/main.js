@@ -151,6 +151,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                 $('#vote_policy').css({
                     'background-image': 'url("img/' + (policy.picture || 'BH.jpg') + '")'
                 });
+                $('#vote_pledged').html('For voting you will get your share of: £' + policy.pledged.toFixed(2));
 
                 // display impact
                 var votes = policy.yes + policy.no;
@@ -179,7 +180,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                 showPage('voting');
             } else {
                 // display hint that no more voting is possible
-                $('#question_title').html('You have voted on everything. Wow. Come back later for more!');
+                $('#question_title').html('Thank you for Waving Your Votes. Come back later for more!');
                 showPage('done');
             }
         });

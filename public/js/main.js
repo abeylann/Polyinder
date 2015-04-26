@@ -49,8 +49,10 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
             swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
                 console.log("You swiped " + direction );
                 if (direction === "left") {
+                    // voted NO
                     $('#vote_decision').attr('src', 'img/cross.png').css('display','block');
                 } else {
+                    // voted YES
                     $('#vote_decision').attr('src', 'img/check.png').css('display','block');
                 }
             },
@@ -66,10 +68,11 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
     var currentPolicy = null;
 
     var showVotes = function(policy) {
-        if (policy.status === 'fail')
+        if (policy.status === 'fail') {
             $('#stats').html(policy.message);
-        else
+        } else {
             $('#stats').html('Results for this policy: ' + policy.yes + ' yes / ' + policy.no + ' no');
+        }
     };
 
     $('#button_no').click(function() {
@@ -84,7 +87,14 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
     var sendVote = function(vote) {
         api.sendVote(currentPolicy, vote === 'yes', function(policy) {
             console.log('voted', vote);
-            nextQuestion();
+            if (vote === 'no') {
+                // voted NO
+                $('#vote_decision').attr('src', 'img/cross.png').css('display','block');
+            } else {
+                // voted YES
+                $('#vote_decision').attr('src', 'img/check.png').css('display','block');
+            }
+            //nextQuestion();
             showVotes(policy);
         });
     };

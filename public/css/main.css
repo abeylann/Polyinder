@@ -4,8 +4,8 @@
     max-width: 300px;
     height: 300px;
     padding: 0 !important;
-    text-align:center;
-    overflow:hidden;
+    margin: auto;
+    overflow: hidden;
 }
 
 #page_done {
@@ -26,6 +26,7 @@
 
 
 #vote_policy {
+    background-image: url(img/BH.jpg);
     background-repeat: no-repeat;
     background-size: 100% auto;
     background-position: 50%;

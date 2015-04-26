@@ -114,7 +114,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                     $('#vote_decision').attr('src', 'img/check.png').css('display', 'block');
                 }
                 window.setTimeout(function() {
-                    showVotes(policy);
+                    showVotes(policy, vote);
                     window.setTimeout(function() {
                         votesBlocked = false;
                     }, 1000);

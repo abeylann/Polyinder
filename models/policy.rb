@@ -8,6 +8,7 @@ class Policy < ActiveRecord::Base
     {
       id: id,
       title: name,
+      pledged: pledged,
       yes: votes.where(yes: true).count,
       no: votes.where(yes: false).count,
       picture: image_url,

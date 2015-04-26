@@ -118,7 +118,7 @@ define(['jquery', 'material_design', 'api', 'touchSwipe', 'shout'], function($, 
                     window.setTimeout(function() {
                         votesBlocked = false;
                     }, 1000);
-                }, 2000);
+                }, 1000);
             });
         } else {
             nextQuestion();

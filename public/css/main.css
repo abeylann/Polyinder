@@ -14,17 +14,18 @@
 
 .header-image {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: bottom;
     padding: 10px 10px 0 10px;
 }
 .header-image img {
-    height: 40px;
-}
-.header-image.braintree img {
     height: 30px;
 }
+.header-image.braintree {
+    margin-bottom: -3px;
+}
 .header-image span {
-    font-size: 24px;
+    font-size: 20px;
+    color: white;
 }
 
 #page_done {

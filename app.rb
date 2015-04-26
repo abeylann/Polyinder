@@ -10,11 +10,11 @@ require 'twilio-ruby'
 set :database, ENV['DATABASE_URL']
 
 get '/' do
-  redirect '/index.html'
+  send_file File.join(settings.public_folder, 'index.html')
 end
 
 get '/register' do
-  redirect '/signup.html'
+  send_file File.join(settings.public_folder, 'signup.html')
 end
 
 get '/clean' do
